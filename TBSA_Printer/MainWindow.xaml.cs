@@ -15,6 +15,10 @@ using System.Printing;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using TBSA_Printer.Models;
+using System.Linq;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -30,11 +34,15 @@ namespace TBSA_Printer
         {
             InitializeComponent();
 
+            
 
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+
+            Console.WriteLine("button_Click Start"); 
+
             string printerIp = tBIP.Text;
 
             int printerPort = Int32.Parse(tBPort.Text);
@@ -61,6 +69,23 @@ namespace TBSA_Printer
                                 ^A0N,40,40
                                 ^FD{currentDate} {currentTime} ^FS
                                 ^XZ";
+
+            using (var context = new LogTestContext()) // Nahraďte YourDbContext jménem generovaného DbContextu
+            {
+                // Přečtení jednoho uživatele z tabulky Users, který má ID = 1
+                //var user = context.Eftests.OrderByDescending(u => u.Id).FirstOrDefault();                  
+
+                var user = context.Eftests.FromSqlRaw("SELECT * from dbo.fcTest()").AsEnumerable().FirstOrDefault();        //Volání funkce z DB
+                if (user != null)
+                {
+                    Log.Information($"User ID: {user.Id}, Name: {user.Name}, Email: {user.Text}");
+                }
+                else
+                {
+                    Log.Information("User not found.");
+                }
+            }
+
             try
             {              
                 Conn.Open();

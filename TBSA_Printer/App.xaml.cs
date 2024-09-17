@@ -5,6 +5,7 @@ using System.Windows;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using System.Diagnostics;
 
 namespace TBSA_Printer
 {
@@ -22,7 +23,7 @@ namespace TBSA_Printer
             base.OnStartup(e);
 
             Log.Logger = new LoggerConfiguration().WriteTo
-            .MSSqlServer(
+            .MSSqlServer(                               //Výstup do DB
                 connectionString: _connectionString,
                 sinkOptions: new MSSqlServerSinkOptions
                 {
@@ -34,7 +35,10 @@ namespace TBSA_Printer
                 formatProvider: null,
                 columnOptions: null,
                 logEventFormatter: null)
+            .WriteTo.Debug()            // Výstup do Debug Output Window
+            .WriteTo.Console()          // Přidává výstup do konzole
             .CreateLogger();
+            
 
             Log.Information("Application started.");
         }
