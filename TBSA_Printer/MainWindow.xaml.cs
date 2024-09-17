@@ -25,26 +25,11 @@ namespace TBSA_Printer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string _connectionString = "Server=192.168.130.31;Database=LogTest;User Id=sa;Password=Taurid1*;TrustServerCertificate=True;";
-        private const string _schemaName = "dbo";
-        private const string _tableName = "LogEvents";
+        
         public MainWindow()
         {
             InitializeComponent();
-            Log.Logger = new LoggerConfiguration().WriteTo
-               .MSSqlServer(
-                   connectionString: _connectionString,
-                   sinkOptions: new MSSqlServerSinkOptions
-                   {
-                       TableName = _tableName,
-                       SchemaName = _schemaName,
-                       AutoCreateSqlTable = true
-                   },
-                   restrictedToMinimumLevel: LogEventLevel.Debug,
-                   formatProvider: null,
-                   columnOptions: null,
-                   logEventFormatter: null)
-               .CreateLogger();
+
 
         }
 
