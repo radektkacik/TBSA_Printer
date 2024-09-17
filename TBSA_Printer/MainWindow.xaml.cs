@@ -45,6 +45,7 @@ namespace TBSA_Printer
                    columnOptions: null,
                    logEventFormatter: null)
                .CreateLogger();
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -100,8 +101,7 @@ namespace TBSA_Printer
             }
             finally
             {
-                Conn.Close();
-                //Log.CloseAndFlush();
+                Conn.Close();                
             }
              
 
