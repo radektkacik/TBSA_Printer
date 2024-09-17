@@ -101,7 +101,7 @@ namespace TBSA_Printer
             finally
             {
                 Conn.Close();
-                Log.CloseAndFlush();
+                //Log.CloseAndFlush();
             }
              
 
